@@ -1,0 +1,50 @@
+// We are building bytecode only packages which are Python version specific
+def PYTHON_VERSION = '3.11'
+
+// We use Alpine docker image to build packages in
+def ALPINE_VERSION = '3.17'
+
+pipeline {
+    agent {
+        docker { image "python:${PYTHON_VERSION}-alpine${ALPINE_VERSION}"
+       }
+    }
+    options {
+        disableConcurrentBuilds()
+        timestamps()
+        timeout(time: 30, unit: 'MINUTES')
+    }
+    stages { 
+        stage('Set virtual python environment and build wheel package') {
+        steps {
+             withEnv(["HOME=${env.WORKSPACE}"]) {
+                    sh '''  
+                    python3.11 -m venv --upgrade-deps .venv
+                    source .venv/bin/activate
+                    pip install wheel setuptools 
+                    python -c "from setuptools import setup; setup()" bdist_egg --exclude-source-files
+                    python -m wheel convert dist/*.egg
+                    deactivate
+                    '''
+                }
+        }
+       } 
+        stage('Archive') {
+            steps {
+                // Here we replace py3 python tag with specific python
+                // version derived tag (using appropriate convention, i.e. py
+                // + first two version digits) as bytecode is Python version
+                // specific
+               
+                archiveArtifacts '*.whl'
+            }
+        }
+    }
+        post {
+        always {
+            cleanWs()
+        }
+    }
+
+    }
+   
