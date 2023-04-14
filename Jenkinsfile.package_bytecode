@@ -6,7 +6,7 @@ def ALPINE_VERSION = '3.17'
 
 pipeline {
      agent { dockerfile true }
-    }
+    
     
     stages { 
         stage('Set virtual python environment and build wheel package') {
@@ -33,8 +33,6 @@ pipeline {
                 archiveArtifacts '*.whl'
             }
         }
-    }
-       
-
+    }      
     }
    
