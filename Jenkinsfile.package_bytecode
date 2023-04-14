@@ -20,6 +20,7 @@ pipeline {
              withEnv(["HOME=${env.WORKSPACE}"]) {
                     sh '''  
                     python3.11 -m venv --upgrade-deps .venv
+                    chmod 777 .venv/bin/activate
                     source .venv/bin/activate
                     pip install wheel setuptools versioningit
                     python -c "from setuptools import setup; setup()" bdist_egg --exclude-source-files
