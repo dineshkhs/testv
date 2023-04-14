@@ -21,7 +21,7 @@ pipeline {
                     sh '''  
                     python3.11 -m venv --upgrade-deps .venv
                     source .venv/bin/activate
-                    pip install wheel setuptools 
+                    pip install wheel setuptools versioningit
                     python -c "from setuptools import setup; setup()" bdist_egg --exclude-source-files
                     python -m wheel convert dist/*.egg
                     deactivate
