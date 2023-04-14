@@ -1,5 +1,5 @@
 // We are building bytecode only packages which are Python version specific
-def PYTHON_VERSION = '3.11'
+def PYTHON_VERSION = '3.11.3'
 
 // We use Alpine docker image to build packages in
 def ALPINE_VERSION = '3.17'
