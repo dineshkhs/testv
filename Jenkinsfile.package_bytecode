@@ -20,6 +20,7 @@ pipeline {
                    
                     sh '''  
                     ls -al /usr/local/lib/python3.11/site-packages
+                    sleep 500
                     pip install --user wheel setuptools versioningit
                     pip install --upgrade versioningit
                     python3.11 -c "from setuptools import setup; setup()" bdist_egg --exclude-source-files
