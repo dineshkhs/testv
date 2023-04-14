@@ -21,7 +21,6 @@ pipeline {
                     pip install wheel setuptools versioningit
                     python3.11 -c "from setuptools import setup; setup()" bdist_egg --exclude-source-files
                     python3.11 -m wheel convert dist/*.egg
-                    deactivate
                     '''
                 
         }
