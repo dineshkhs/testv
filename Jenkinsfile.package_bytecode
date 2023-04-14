@@ -17,18 +17,12 @@ pipeline {
     stages { 
         stage('Set virtual python environment and build wheel package') {
         steps {
-                   withEnv(["HOME=${env.WORKSPACE}"]) {
                     sh '''  
-                    python3.11 -m venv --upgrade-deps venv
-                    chmod 777 venv/bin/activate
-                    source venv/bin/activate
-                    pip install GitPython wheel setuptools versioningit
+                    pip install wheel setuptools versioningit
                     pip install --upgrade versioningit
                     python3.11 -c "from setuptools import setup; setup()" bdist_egg --exclude-source-files
                     python3.11 -m wheel convert dist/*.egg
-                    deactivate
                     '''
-                }
                 
         }
        } 
